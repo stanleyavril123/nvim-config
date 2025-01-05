@@ -6,7 +6,7 @@ return {
     config = function()
       require("telescope").setup({
         defaults = {
-          file_ignore_patterns = { "venv/", "%.pyc", "__pycache__/" },
+          file_ignore_patterns = { "venv/", "%.pyc", "__pycache__/", "node_modules" },
         },
       })
 
