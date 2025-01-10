@@ -29,7 +29,7 @@ require("lazy").setup("plugins", {
 })
 vim.opt.number = true -- Absolute line numbers
 vim.opt.relativenumber = true -- Relative line numbers
-vim.opt.shell = "powershell.exe"
+vim.opt.shell = "/bin/bash"
 vim.opt.shellcmdflag = "-NoLogo -NoProfile -ExecutionPolicy RemoteSigned -Command"
 vim.opt.shellquote = ""
 vim.opt.shellxquote = ""
