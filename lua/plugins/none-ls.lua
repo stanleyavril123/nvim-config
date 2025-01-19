@@ -15,8 +15,8 @@ return {
 				null_ls.builtins.formatting.isort,
 				-- javaScript
 				null_ls.builtins.formatting.prettierd,
-        --Java
-        null_ls.builtins.formatting.google_java_format,
+				--Java
+				null_ls.builtins.formatting.google_java_format
 
 			},
 		})
