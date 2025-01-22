@@ -11,7 +11,7 @@ return {
 		lazy = false,
 		opts = {
 			auto_install = true,
-			ensure_installed = { "lua_ls", "ts_ls", "pyright","clangd", "jdtls" },
+			ensure_installed = { "lua_ls", "ts_ls", "pyright", "clangd", "jdtls", "html" },
 		},
 	},
 	{
