@@ -11,7 +11,7 @@ return {
 		lazy = false,
 		opts = {
 			auto_install = true,
-			ensure_installed = { "lua_ls", "ts_ls", "pyright", "clangd", "jdtls", "html" },
+			ensure_installed = { "lua_ls", "ts_ls", "pyright", "clangd", "jdtls", "html", "gopls" },
 		},
 	},
 	{
@@ -29,6 +29,7 @@ return {
 			lspconfig.clangd.setup({ capabilities = capabilities })
 			lspconfig.jdtls.setup({ capabilities = capabilities })
 			lspconfig.html.setup({ capabilities = capabilities })
+			lspconfig.gopls.setup({ capabilities = capabilities })
 
 			vim.keymap.set("n", "K", vim.lsp.buf.hover, {})
 			vim.keymap.set("n", "gd", vim.lsp.buf.definition, {})
