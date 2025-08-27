@@ -33,7 +33,9 @@ vim.opt.shell = "/bin/bash"
 vim.opt.shellcmdflag = "-NoLogo -NoProfile -ExecutionPolicy RemoteSigned -Command"
 vim.opt.shellquote = ""
 vim.opt.shellxquote = ""
+vim.opt.clipboard = "unnamedplus"
 vim.keymap.set("n", "<leader>ps", ":terminal<CR>")
+
 
 -- Python: Run with Python
 vim.api.nvim_create_autocmd("FileType", {
