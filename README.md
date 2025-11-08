@@ -98,23 +98,33 @@ A highly‑opinionated Neovim setup written in Lua, powered by:
 
 ## 🎨 Theme & Background
 
-By default this setup uses **Catppuccin Mocha** with a solid black background.  
-Override highlights in `lua/plugins/catppuccin.lua`:
+This setup uses **Catppuccin Mocha** with a **transparent** background so your terminal/Kitty wallpaper shows through.
 
+**Config:** `lua/plugins/catppuccin.lua`
 ```lua
-require("catppuccin").setup({
-  flavour                = "mocha",
-  transparent_background = false,
-  custom_highlights = function(cp)
-    return {
-      Normal   = { bg = "#000000" },
-      NormalNC = { bg = "#000000" },
-      SignColumn = { bg = "#000000" },
-      Folded   = { bg = "#000000" },
-    }
-  end,
-})
-vim.cmd.colorscheme("catppuccin")
+return {
+  {
+    "catppuccin/nvim",
+    name = "catppuccin",
+    priority = 1000,
+    config = function()
+      vim.opt.termguicolors = true
+      vim.opt.background = "dark"
+
+      require("catppuccin").setup({
+        flavour = "mocha",
+        transparent_background = true,          -- terminal background shows through
+        custom_highlights = function(cp)
+          return {
+            WinSeparator = { fg = cp.surface1, bg = "NONE" },
+          }
+        end,
+      })
+
+      vim.cmd.colorscheme("catppuccin")
+    end,
+  },
+}
 ```
 
 ---
