@@ -9,14 +9,10 @@ return {
 
 			require("catppuccin").setup({
 				flavour = "mocha",
-				transparent_background = false,
+				transparent_background = true,
 				custom_highlights = function(cp)
 					return {
-						Normal = { bg = "#000000" },
-						NormalNC = { bg = "#000000" },
-						SignColumn = { bg = "#000000" },
-						Folded = { bg = "#000000" },
-						WinSeparator = { fg = cp.surface1, bg = "#000000" },
+						WinSeparator = { fg = cp.surface1, bg = "NONE" },
 					}
 				end,
 			})
