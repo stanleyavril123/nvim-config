@@ -2,55 +2,77 @@ return {
 	{
 		"williamboman/mason.nvim",
 		lazy = false,
-		config = function()
-			require("mason").setup()
-		end,
+		opts = {}, -- mason default setup
 	},
 	{
 		"williamboman/mason-lspconfig.nvim",
 		lazy = false,
+		dependencies = { "williamboman/mason.nvim" },
 		opts = {
-			auto_install = true,
-			ensure_installed = { "lua_ls", "ts_ls", "pyright", "clangd", "jdtls", "html", "gopls", "angularls", "sqls" },
+			ensure_installed = {
+				"lua_ls",
+				"ts_ls",
+				"pyright",
+				"clangd",
+				"jdtls",
+				"html",
+				"gopls",
+				"sqls",
+			},
+			automatic_installation = true,
 		},
 	},
 	{
 		"neovim/nvim-lspconfig",
 		lazy = false,
+		dependencies = { "hrsh7th/cmp-nvim-lsp" },
 		config = function()
-			local capabilities = require("cmp_nvim_lsp").default_capabilities()
 			local lspconfig = require("lspconfig")
-			local util = require("lspconfig.util")
+			local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
+			-- list of "boring" servers
+			local servers = { "pyright", "clangd", "jdtls", "html", "gopls", "sqls" }
+
+			for _, server in ipairs(servers) do
+				lspconfig[server].setup({ capabilities = capabilities })
+			end
+
+			-- lua_ls with extra settings
 			lspconfig.lua_ls.setup({
 				capabilities = capabilities,
+				settings = {
+					Lua = {
+						diagnostics = { globals = { "vim" } },
+						workspace = { checkThirdParty = false },
+						telemetry = { enable = false },
+					},
+				},
 			})
+
+			-- ts_ls with inlay hints only
 			lspconfig.ts_ls.setup({
 				capabilities = capabilities,
-				root_dir = function(fname)
-					-- pass VARARGS, not a table
-					local ts_root = util.root_pattern("package.json", "tsconfig.json", "jsconfig.json", ".git")
-					return ts_root(fname) or util.find_git_ancestor(fname) or vim.loop.cwd()
-				end,
+				settings = {
+					typescript = {
+						inlayHints = {
+							includeInlayParameterNameHints = "all",
+							includeInlayFunctionLikeReturnTypeHints = true,
+						},
+					},
+					javascript = {
+						inlayHints = {
+							includeInlayParameterNameHints = "all",
+							includeInlayFunctionLikeReturnTypeHints = true,
+						},
+					},
+				},
 			})
-			lspconfig.angularls.setup({
-				capabilities = capabilities,
-				root_dir = function(fname)
-					local ng_root = util.root_pattern("angular.json", "project.json", "nx.json", "package.json", ".git")
-					return ng_root(fname) or util.find_git_ancestor(fname) or vim.loop.cwd()
-				end,
-			})
-			lspconfig.pyright.setup({ capabilities = capabilities })
-			lspconfig.clangd.setup({ capabilities = capabilities })
-			lspconfig.jdtls.setup({ capabilities = capabilities })
-			lspconfig.html.setup({ capabilities = capabilities })
-			lspconfig.gopls.setup({ capabilities = capabilities })
-			lspconfig.sqls.setup({ capabilities = capabilities })
 
-			vim.keymap.set("n", "K", vim.lsp.buf.hover, {})
-			vim.keymap.set("n", "gd", vim.lsp.buf.definition, {})
-			vim.keymap.set("n", "gr", vim.lsp.buf.references, {})
-			vim.keymap.set({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, {})
+			-- keymaps, same as you already had
+			vim.keymap.set("n", "gd", vim.lsp.buf.definition, { desc = "Go to definition" })
+			vim.keymap.set("n", "K", vim.lsp.buf.hover, { desc = "Hover" })
+			vim.keymap.set("n", "gr", vim.lsp.buf.references, { desc = "References" })
+			vim.keymap.set({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, { desc = "Code action" })
 		end,
 	},
 }
