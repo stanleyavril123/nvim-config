@@ -5,17 +5,15 @@ return {
     branch = "v3.x",
     dependencies = {
       "nvim-lua/plenary.nvim",
-      "nvim-tree/nvim-web-devicons", -- not strictly required, but recommended
+      "nvim-tree/nvim-web-devicons",
       "MunifTanjim/nui.nvim",
-      -- "3rd/image.nvim", -- Optional image support in preview window: See `# Preview Mode` for more information
     },
     config = function()
       require("neo-tree").setup({
-        close_if_last_window = true, -- Automatically close if it's the last window
+        close_if_last_window = true,
         filesystem = {
           filtered_items = {
-            visible = true, -- Show hidden files
-            hide_dotfiles = false,
+            visible = true, hide_dotfiles = false,
           },
         },
       })
