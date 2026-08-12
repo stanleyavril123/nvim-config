@@ -1,0 +1,17 @@
+name="Catppuccin Mocha"
+appearance="dark"
+nvim_colorscheme="catppuccin-mocha"
+nvim_plugin="catppuccin"
+
+foreground="#cdd6f4"
+background="#1e1e2e"
+selection_foreground="#1e1e2e"
+selection_background="#f5e0dc"
+cursor="#f5e0dc"
+
+palette=(
+	"#45475a" "#f38ba8" "#a6e3a1" "#f9e2af"
+	"#89b4fa" "#f5c2e7" "#94e2d5" "#bac2de"
+	"#656880" "#f38ba8" "#a6e3a1" "#f9e2af"
+	"#89b4fa" "#f5c2e7" "#94e2d5" "#a6adc8"
+)

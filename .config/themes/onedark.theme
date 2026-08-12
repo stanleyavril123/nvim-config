@@ -1,0 +1,17 @@
+name="One Dark"
+appearance="dark"
+nvim_colorscheme="onedark"
+nvim_plugin="onedark.nvim"
+
+foreground="#b1b8c4"
+background="#282c34"
+selection_foreground="#abb2bf"
+selection_background="#3e4451"
+cursor="#578fff"
+
+palette=(
+	"#454b59" "#e17078" "#98c379" "#e5c07b"
+	"#61afef" "#c678dd" "#56b6c2" "#abb2bf"
+	"#6c7584" "#e17078" "#98c379" "#e5c07b"
+	"#61afef" "#c678dd" "#56b6c2" "#ffffff"
+)

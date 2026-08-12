@@ -1,0 +1,213 @@
+#!/usr/bin/env python3
+
+"""Check, and optionally fix, the readability of the theme palettes.
+
+Terminal palettes are written for looks, not for contrast, and several popular
+ones leave text well below the point where it is comfortable to read. This
+reports the contrast of every color in every palette against that theme's
+background, and with --fix moves the offenders just far enough to clear the
+floor below while keeping their hue and saturation.
+
+Run it after adding or editing a palette in .config/themes.
+"""
+
+import colorsys
+import glob
+import os
+import re
+import sys
+
+DOTFILES_DIR = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
+THEME_DIRS = (
+    os.path.join(os.environ.get("XDG_CONFIG_HOME", os.path.expanduser("~/.config")), "themes"),
+    os.path.join(DOTFILES_DIR, ".config", "themes"),
+)
+
+# Minimum contrast against the theme background, by role.
+FG_MIN = 7.0      # main text, WCAG AAA
+ACCENT_MIN = 4.5  # colors 1-7 and 9-15, read as text: WCAG AA
+DIM_MIN = 3.0     # color8, comments and dim text
+BLACK_MIN = 1.6   # color0 on a dark theme: a shade of the background
+
+FIELDS = ("name", "appearance", "foreground", "background",
+          "selection_foreground", "selection_background", "cursor")
+
+
+def parse(path):
+    text = open(path).read()
+    theme = {}
+    for key in FIELDS:
+        match = re.search(r'^%s="([^"]*)"' % key, text, re.M)
+        theme[key] = match.group(1) if match else ""
+    block = re.search(r"palette=\(\s*(.*?)\s*\)", text, re.S)
+    theme["palette"] = re.findall(r'"(#[0-9a-fA-F]{6})"', block.group(1)) if block else []
+    return theme
+
+
+def rgb(color):
+    color = color.lstrip("#")
+    return tuple(int(color[i:i + 2], 16) / 255 for i in (0, 2, 4))
+
+
+def to_hex(triple):
+    return "#%02x%02x%02x" % tuple(round(min(1.0, max(0.0, v)) * 255) for v in triple)
+
+
+def luminance(color):
+    def channel(value):
+        return value / 12.92 if value <= 0.03928 else ((value + 0.055) / 1.055) ** 2.4
+
+    red, green, blue = (channel(v) for v in rgb(color))
+    return 0.2126 * red + 0.7152 * green + 0.0722 * blue
+
+
+def contrast(one, two):
+    high, low = sorted((luminance(one), luminance(two)), reverse=True)
+    return (high + 0.05) / (low + 0.05)
+
+
+def floor_for(index, appearance):
+    if index == 0:
+        # ANSI black is a shade of a dark background, but ordinary text on a
+        # light one, where it has to be readable.
+        return BLACK_MIN if appearance == "dark" else ACCENT_MIN
+    if index == 8:
+        return DIM_MIN
+    return ACCENT_MIN
+
+
+def search(color, background, want, brighten):
+    """Nearest lightness in one direction that clears `want`, or None."""
+    hue, light, saturation = colorsys.rgb_to_hls(*rgb(color))
+    low, high = (light, 1.0) if brighten else (0.0, light)
+    found = None
+
+    for _ in range(40):
+        middle = (low + high) / 2
+        candidate = to_hex(colorsys.hls_to_rgb(hue, middle, saturation))
+        clears = contrast(candidate, background) >= want
+        if clears:
+            found = candidate
+        if clears == brighten:
+            high = middle
+        else:
+            low = middle
+    return found
+
+
+def adjust(color, background, want, appearance):
+    """Move lightness until `color` clears `want`, keeping hue and saturation.
+
+    The theme's own direction is tried first. A mid-tone background can only be
+    escaped the other way, so that is the fallback.
+    """
+    if contrast(color, background) >= want:
+        return color
+
+    outward = appearance == "dark"
+    return (search(color, background, want, outward)
+            or search(color, background, want, not outward)
+            or color)
+
+
+def roles(theme):
+    """Every color that is read as text, with what it is read against."""
+    yield "foreground", theme["foreground"], theme["background"], FG_MIN
+    yield ("selection_fg", theme["selection_foreground"],
+           theme["selection_background"], ACCENT_MIN)
+    yield "cursor", theme["cursor"], theme["background"], ACCENT_MIN
+    for index, color in enumerate(theme["palette"]):
+        yield ("color%d" % index, color, theme["background"],
+               floor_for(index, theme["appearance"]))
+
+
+def report(paths):
+    failures = 0
+
+    for path in paths:
+        theme = parse(path)
+        below = [(role, color, contrast(color, against), want)
+                 for role, color, against, want in roles(theme)
+                 if contrast(color, against) < want]
+        failures += len(below)
+        print("%-18s %-6s bg=%s  %s" % (
+            os.path.basename(path)[:-6], theme["appearance"], theme["background"],
+            "ok" if not below else "%d below floor" % len(below)))
+        for role, color, ratio, want in below:
+            same = "  <- same as the background" if ratio < 1.05 else ""
+            print("      %-13s %s  %4.2f (want %.1f)%s" % (role, color, ratio, want, same))
+
+    print("\n%d values below the contrast floor" % failures)
+    return failures
+
+
+def fix(paths):
+    changed = 0
+
+    for path in paths:
+        theme = parse(path)
+        background, appearance = theme["background"], theme["appearance"]
+        text = open(path).read()
+        edits = []
+
+        for key, want, against in (
+            ("foreground", FG_MIN, background),
+            # Selected text is read against the selection, not the page.
+            ("selection_foreground", ACCENT_MIN, theme["selection_background"]),
+            # A block cursor inverts its cell, so it carries text itself.
+            ("cursor", ACCENT_MIN, background),
+        ):
+            side = "dark" if luminance(against) < 0.35 else "light"
+            new = adjust(theme[key], against, want, side)
+            if new != theme[key]:
+                text = text.replace('%s="%s"' % (key, theme[key]), '%s="%s"' % (key, new), 1)
+                edits.append((key, theme[key], new, against))
+
+        palette = []
+        for index, color in enumerate(theme["palette"]):
+            new = adjust(color, background, floor_for(index, appearance), appearance)
+            if new != color:
+                edits.append(("color%d" % index, color, new, background))
+            palette.append(new)
+
+        if palette != theme["palette"]:
+            rows = ["\t" + " ".join('"%s"' % c for c in palette[row:row + 4])
+                    for row in range(0, len(palette), 4)]
+            text = re.sub(r"palette=\(.*?\)", "palette=(\n%s\n)" % "\n".join(rows),
+                          text, flags=re.S)
+
+        if edits:
+            open(path, "w").write(text)
+            changed += len(edits)
+            print("%s:" % os.path.basename(path)[:-6])
+            for role, old, new, against in edits:
+                print("      %-13s %s -> %s (%.2f -> %.2f)" % (
+                    role, old, new, contrast(old, against), contrast(new, against)))
+
+    print("\n%d values adjusted" % changed)
+
+
+def main():
+    if {"-h", "--help"} & set(sys.argv):
+        print(__doc__.strip())
+        print("\nUsage: theme-contrast [--fix]")
+        return 0
+
+    paths = {}
+    for directory in reversed(THEME_DIRS):
+        for path in glob.glob(os.path.join(directory, "*.theme")):
+            paths[os.path.basename(path)] = path
+
+    if not paths:
+        print("theme-contrast: no palette files found", file=sys.stderr)
+        return 1
+
+    ordered = [paths[name] for name in sorted(paths)]
+    if "--fix" in sys.argv:
+        fix(ordered)
+        return 0
+    return 1 if report(ordered) else 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())

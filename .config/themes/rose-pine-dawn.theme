@@ -1,0 +1,17 @@
+name="Rose Pine Dawn"
+appearance="light"
+nvim_colorscheme="rose-pine-dawn"
+nvim_plugin="rose-pine"
+
+foreground="#534f74"
+background="#faf4ed"
+selection_foreground="#575279"
+selection_background="#dfdad9"
+cursor="#575279"
+
+palette=(
+	"#26233a" "#ad546e" "#286983" "#9f6310"
+	"#467881" "#7f659c" "#c44540" "#575279"
+	"#918b9f" "#ad546e" "#286983" "#9f6310"
+	"#467881" "#7f659c" "#c44540" "#575279"
+)

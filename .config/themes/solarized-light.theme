@@ -1,0 +1,17 @@
+name="Solarized Light"
+appearance="light"
+nvim_colorscheme="solarized"
+nvim_plugin="solarized.nvim"
+
+foreground="#46575c"
+background="#fdf6e3"
+selection_foreground="#002b36"
+selection_background="#eee8d5"
+cursor="#586e75"
+
+palette=(
+	"#073642" "#da2925" "#697800" "#8f6c00"
+	"#2076b3" "#cf2d7c" "#217e77" "#60747c"
+	"#586e75" "#c44915" "#697800" "#8f6c00"
+	"#2076b3" "#6369c1" "#217e77" "#002b36"
+)

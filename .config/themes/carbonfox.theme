@@ -1,0 +1,17 @@
+name="Carbonfox"
+appearance="dark"
+nvim_colorscheme="carbonfox"
+nvim_plugin="nightfox.nvim"
+
+foreground="#f2f4f8"
+background="#161616"
+selection_foreground="#f2f4f8"
+selection_background="#2a2a2a"
+cursor="#f2f4f8"
+
+palette=(
+	"#3b3b3b" "#ee5396" "#25be6a" "#08bdba"
+	"#78a9ff" "#be95ff" "#33b1ff" "#dfdfe0"
+	"#636363" "#f16da6" "#46c880" "#2dc7c4"
+	"#8cb6ff" "#c8a5ff" "#52bdff" "#e4e4e5"
+)

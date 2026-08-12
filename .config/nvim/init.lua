@@ -26,3 +26,6 @@ require("lazy").setup("plugins", {
 	checker = { enabled = true },
 	change_detection = { notify = false },
 })
+
+-- Color scheme shared with Kitty and tmux; needs lazy.nvim to be available.
+require("config.theme").setup()

@@ -1,0 +1,17 @@
+name="GitHub Light"
+appearance="light"
+nvim_colorscheme="github_light"
+nvim_plugin="github-nvim-theme"
+
+foreground="#24292f"
+background="#ffffff"
+selection_foreground="#24292f"
+selection_background="#c8e1ff"
+cursor="#0969da"
+
+palette=(
+	"#24292f" "#cf222e" "#116329" "#4d2d00"
+	"#0969da" "#8250df" "#1b7c83" "#6e7781"
+	"#57606a" "#a40e26" "#1a7f37" "#633c01"
+	"#0072f0" "#8d51f7" "#2b8096" "#6d7883"
+)

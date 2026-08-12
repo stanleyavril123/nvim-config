@@ -1,0 +1,17 @@
+name="Tokyo Night Storm"
+appearance="dark"
+nvim_colorscheme="tokyonight-storm"
+nvim_plugin="tokyonight.nvim"
+
+foreground="#c0caf5"
+background="#24283b"
+selection_foreground="#c0caf5"
+selection_background="#2e3c64"
+cursor="#c0caf5"
+
+palette=(
+	"#404768" "#f7768e" "#9ece6a" "#e0af68"
+	"#7aa2f7" "#bb9af7" "#7dcfff" "#a9b1d6"
+	"#656f9f" "#f7768e" "#9ece6a" "#e0af68"
+	"#7aa2f7" "#bb9af7" "#7dcfff" "#c0caf5"
+)

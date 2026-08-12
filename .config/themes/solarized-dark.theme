@@ -1,0 +1,17 @@
+name="Solarized Dark"
+appearance="dark"
+nvim_colorscheme="solarized"
+nvim_plugin="solarized.nvim"
+
+foreground="#a8b4b4"
+background="#002b36"
+selection_foreground="#93a1a1"
+selection_background="#073642"
+cursor="#93a1a1"
+
+palette=(
+	"#0a4d5f" "#e46462" "#859900" "#b58900"
+	"#2f93d9" "#dd629d" "#2aa198" "#eee8d5"
+	"#5c747b" "#e8652e" "#859900" "#b58900"
+	"#2f93d9" "#8287cd" "#2aa198" "#fdf6e3"
+)

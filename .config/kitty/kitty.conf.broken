@@ -1,3 +1,4 @@
+startup_mode maximized
 remember_window_size no
 
 scrollback_lines 10000
@@ -10,12 +11,7 @@ map ctrl+shift+v paste_from_clipboard
 map ctrl+shift+enter new_window
 map ctrl+shift+t     new_tab
 map ctrl+shift+w     close_window
-map ctrl+shift+p     launch --type=overlay bash -lc "theme pick"
 confirm_os_window_close 0
-
-# `theme` recolors running windows through the remote control socket.
-allow_remote_control socket-only
-listen_on unix:/tmp/kitty
 
 cursor_blink_interval 0
 
@@ -30,12 +26,9 @@ enable_audio_bell no
 window_padding_width 12
 background_opacity 0.92
 dynamic_background_opacity yes
-linux_display_server x11
+enable_wayland no
 
 tab_bar_style hidden
-
-# Fallback palette for a machine where no theme has been selected yet. The
-# generated file included below wins once `theme set` has run.
 foreground #cdd6f4
 background #1e1e2e
 selection_foreground #1e1e2e
@@ -57,6 +50,7 @@ color12 #89b4fa
 color13 #f5c2e7
 color14 #94e2d5
 color15 #a6adc8
-
-# Written by `theme set`; globinclude keeps quiet when it does not exist yet.
-globinclude theme.conf
+BEGIN_KITTY_THEME
+Adapta Nokto Maia
+include current-theme.conf
+END_KITTY_THEME

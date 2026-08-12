@@ -37,7 +37,8 @@ To install the editor and terminal setup without optional coding-agent CLIs:
 ## Managed Setup
 
 - Neovim 0.10.3 and its locked plugins
-- Kitty 0.32.2 with transparency and the Adapta Nokto Maia theme
+- Kitty 0.32.2 with transparency
+- A shared theme selector for Kitty, tmux, and Neovim
 - Kitty windows start maximized through the tracked `~/.local/bin/kitty` launcher
 - tmux with `Ctrl-a`, Vim navigation, copy mode, and system clipboard support
 - JetBrainsMono Nerd Font 3.3.0
@@ -55,7 +56,9 @@ Configuration is stored in the standard home-directory layout:
 │   ├── kitty/
 │   ├── bash/
 │   ├── nvim/
+│   ├── themes/
 │   └── starship.toml
+├── bin/
 ├── .tmux.conf
 └── install.sh
 ```
@@ -69,7 +72,93 @@ The installer creates these links:
 ~/.config/starship.toml -> ~/.dotfiles/.config/starship.toml
 ~/.tmux.conf    -> ~/.dotfiles/.tmux.conf
 ~/.local/bin/kitty -> ~/.dotfiles/bin/kitty
+~/.local/bin/theme -> ~/.dotfiles/bin/theme
 ```
+
+## Themes
+
+`theme` switches the color theme of Kitty, tmux, and Neovim together, including
+sessions that are already open.
+
+```bash
+theme              # pick a theme, with live preview
+theme list         # list the available themes
+theme set nord     # apply a theme by name
+theme next         # cycle to the next theme
+```
+
+The picker applies each theme as the selection moves and restores the previous
+one if you leave with `Esc`. `Ctrl-Shift-p` opens it in a Kitty overlay,
+`Ctrl-a T` in a tmux popup, and `<leader>ut` or `:Theme` inside Neovim.
+
+23 themes are included:
+
+| Theme | Variants |
+| --- | --- |
+| Catppuccin | Mocha, Latte |
+| Tokyo Night | Night, Storm, Day |
+| Gruvbox | Dark, Light |
+| Rose Pine | Main, Dawn |
+| Solarized | Dark, Light |
+| GitHub | Dark, Light |
+| Ayu | Dark, Mirage |
+| Dracula | - |
+| One Dark | - |
+| Monokai | - |
+| Nord | - |
+| Nightfox | Nightfox, Carbonfox |
+| Kanagawa | Wave |
+| Everforest | Dark |
+
+Each theme is a palette file in [.config/themes](.config/themes). Applying one
+writes the generated color files that Kitty, tmux, and Neovim read:
+
+```text
+~/.config/kitty/theme.conf       included by kitty.conf, untracked
+~/.local/state/theme/current     active theme name
+~/.local/state/theme/tmux.conf   sourced by ~/.tmux.conf
+~/.local/state/theme/nvim.lua    read and watched by Neovim
+```
+
+Kitty only resolves include paths relative to its own configuration directory,
+which is why its generated file sits there and is listed in `.gitignore`.
+Recoloring an open Kitty window uses its remote control socket, so windows that
+were already running before this configuration was installed need one restart.
+
+Add a theme by copying a palette file, either into `.config/themes` to track it
+or into `~/.config/themes` to keep it on one machine. Neovim needs a matching
+color scheme plugin in
+[colorschemes.lua](.config/nvim/lua/plugins/colorschemes.lua); the palette
+file's `nvim_plugin` and `nvim_colorscheme` values point at it.
+
+### Readability
+
+Published terminal palettes are drawn for looks rather than for contrast, and
+many leave text uncomfortable to read, especially the light ones. Every palette
+here is therefore checked against WCAG contrast ratios, measured against its own
+background:
+
+| Role | Minimum contrast |
+| --- | --- |
+| `foreground` | 7.0, AAA body text |
+| colors 1-7, 9-15, `cursor`, selected text | 4.5, AA body text |
+| `color8`, used for dim text | 3.0 |
+| `color0` on a dark theme | 1.6, a shade of the background |
+
+Colors that fell short were moved in lightness only, so hue and saturation stay
+as published. Rerun the check after editing a palette:
+
+```bash
+~/.dotfiles/bin/theme-contrast         # report every palette
+~/.dotfiles/bin/theme-contrast --fix   # raise whatever is below the floor
+```
+
+Neovim needs the same care, and it renders on Kitty's background because its
+color schemes run transparent, so
+[theme.lua](.config/nvim/lua/config/theme.lua) measures against that background
+and lifts `Normal`, `Comment`, `LineNr`, `NonText`, and `Whitespace` when a color
+scheme dims them too far. It also strips any background a color scheme paints
+itself, which keeps Kitty's opacity working everywhere.
 
 ## Updating
 
@@ -119,6 +208,7 @@ Leader is `Space`.
 | `<leader>gg` | Open Neogit |
 | `<leader>gd` | Open Diffview |
 | `<leader>mp` | Toggle rendered Markdown preview |
+| `<leader>ut` | Switch theme |
 
 Use `:Mason`, `:ConformInfo`, `:OverseerRun`, and `:checkhealth` to inspect the
 development tooling.
@@ -143,7 +233,7 @@ large task when an easy rollback point is useful.
 
 `Ctrl-a` is the prefix. Use `Ctrl-a [` to enter Vim-style copy mode, `v` to
 select, `y` or `Enter` to copy, and `Ctrl-a ]` to paste. Prefix followed by
-`h`, `j`, `k`, or `l` changes panes.
+`h`, `j`, `k`, or `l` changes panes. `Ctrl-a T` opens the theme picker.
 
 ## License
 

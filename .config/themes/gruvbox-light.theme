@@ -1,0 +1,17 @@
+name="Gruvbox Light"
+appearance="light"
+nvim_colorscheme="gruvbox"
+nvim_plugin="gruvbox.nvim"
+
+foreground="#3c3836"
+background="#fbf1c7"
+selection_foreground="#3c3836"
+selection_background="#ebdbb2"
+cursor="#3c3836"
+
+palette=(
+	"#3c3836" "#cc241d" "#727114" "#906616"
+	"#3d7679" "#a65279" "#4e774f" "#786b61"
+	"#928374" "#9d0006" "#75700e" "#976311"
+	"#076678" "#8f3f71" "#417957" "#3c3836"
+)

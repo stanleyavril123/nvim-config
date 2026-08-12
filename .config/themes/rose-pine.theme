@@ -1,0 +1,17 @@
+name="Rose Pine"
+appearance="dark"
+nvim_colorscheme="rose-pine-main"
+nvim_plugin="rose-pine"
+
+foreground="#e0def4"
+background="#191724"
+selection_foreground="#e0def4"
+selection_background="#403d52"
+cursor="#e0def4"
+
+palette=(
+	"#3c385c" "#eb6f92" "#3a8aaa" "#f6c177"
+	"#9ccfd8" "#c4a7e7" "#ebbcba" "#e0def4"
+	"#6e6a86" "#eb6f92" "#3a8aaa" "#f6c177"
+	"#9ccfd8" "#c4a7e7" "#ebbcba" "#e0def4"
+)

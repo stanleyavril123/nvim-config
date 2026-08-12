@@ -1,0 +1,17 @@
+name="Tokyo Night"
+appearance="dark"
+nvim_colorscheme="tokyonight-night"
+nvim_plugin="tokyonight.nvim"
+
+foreground="#c0caf5"
+background="#1a1b26"
+selection_foreground="#c0caf5"
+selection_background="#283457"
+cursor="#c0caf5"
+
+palette=(
+	"#3a3d53" "#f7768e" "#9ece6a" "#e0af68"
+	"#7aa2f7" "#bb9af7" "#7dcfff" "#a9b1d6"
+	"#5b6591" "#f7768e" "#9ece6a" "#e0af68"
+	"#7aa2f7" "#bb9af7" "#7dcfff" "#c0caf5"
+)

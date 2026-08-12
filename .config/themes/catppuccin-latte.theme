@@ -1,0 +1,17 @@
+name="Catppuccin Latte"
+appearance="light"
+nvim_colorscheme="catppuccin-latte"
+nvim_plugin="catppuccin"
+
+foreground="#4c4f69"
+background="#eff1f5"
+selection_foreground="#2e374a"
+selection_background="#dc8a78"
+cursor="#bb4931"
+
+palette=(
+	"#5c5f77" "#d20f39" "#327d22" "#996214"
+	"#1962f5" "#c81f9b" "#137a80" "#676d84"
+	"#6c6f85" "#d20f39" "#327d22" "#996214"
+	"#1962f5" "#c81f9b" "#137a80" "#666d85"
+)

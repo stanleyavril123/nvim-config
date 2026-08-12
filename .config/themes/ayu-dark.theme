@@ -1,0 +1,17 @@
+name="Ayu Dark"
+appearance="dark"
+nvim_colorscheme="ayu-dark"
+nvim_plugin="neovim-ayu"
+
+foreground="#e6e1cf"
+background="#0f1419"
+selection_foreground="#e6e1cf"
+selection_background="#253340"
+cursor="#f29718"
+
+palette=(
+	"#333a44" "#ff3333" "#b8cc52" "#e7c547"
+	"#36a3d9" "#f07178" "#95e6cb" "#e6e1cf"
+	"#586275" "#ff6565" "#eafe84" "#fff779"
+	"#68d5ff" "#ffa3aa" "#c7fffd" "#ffffff"
+)

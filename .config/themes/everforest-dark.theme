@@ -1,0 +1,17 @@
+name="Everforest Dark"
+appearance="dark"
+nvim_colorscheme="everforest"
+nvim_plugin="everforest-nvim"
+
+foreground="#d3c6aa"
+background="#2d353b"
+selection_foreground="#d3c6aa"
+selection_background="#475258"
+cursor="#d3c6aa"
+
+palette=(
+	"#46555b" "#e67e80" "#a7c080" "#dbbc7f"
+	"#7fbbb3" "#d699b6" "#83c092" "#d3c6aa"
+	"#7a8478" "#e67e80" "#a7c080" "#dbbc7f"
+	"#7fbbb3" "#d699b6" "#83c092" "#d3c6aa"
+)

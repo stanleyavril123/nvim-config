@@ -1,0 +1,17 @@
+name="Nord"
+appearance="dark"
+nvim_colorscheme="nord"
+nvim_plugin="nord.nvim"
+
+foreground="#d8dee9"
+background="#2e3440"
+selection_foreground="#d8dee9"
+selection_background="#434c5e"
+cursor="#d8dee9"
+
+palette=(
+	"#4a5367" "#cf888f" "#a3be8c" "#ebcb8b"
+	"#81a1c1" "#b590af" "#88c0d0" "#e5e9f0"
+	"#6f7d98" "#cf888f" "#a3be8c" "#ebcb8b"
+	"#81a1c1" "#b590af" "#8fbcbb" "#eceff4"
+)

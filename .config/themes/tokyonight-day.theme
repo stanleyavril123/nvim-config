@@ -1,0 +1,17 @@
+name="Tokyo Night Day"
+appearance="light"
+nvim_colorscheme="tokyonight-day"
+nvim_plugin="tokyonight.nvim"
+
+foreground="#28458a"
+background="#e1e2e7"
+selection_foreground="#2b4b96"
+selection_background="#b6bfe2"
+cursor="#3760bf"
+
+palette=(
+	"#414868" "#c90941" "#526d35" "#7d6037"
+	"#1561ca" "#8230ee" "#006d92" "#5062a1"
+	"#777fab" "#c90941" "#526d35" "#7d6037"
+	"#1561ca" "#8230ee" "#006d92" "#3760bf"
+)

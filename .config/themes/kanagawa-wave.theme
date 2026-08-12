@@ -1,0 +1,17 @@
+name="Kanagawa Wave"
+appearance="dark"
+nvim_colorscheme="kanagawa-wave"
+nvim_plugin="kanagawa.nvim"
+
+foreground="#dcd7ba"
+background="#1f1f28"
+selection_foreground="#c8c093"
+selection_background="#2d4f67"
+cursor="#c8c093"
+
+palette=(
+	"#404054" "#cf6769" "#76946a" "#c0a36e"
+	"#7e9cd8" "#957fb8" "#6a9589" "#c8c093"
+	"#727169" "#ec4f4f" "#98bb6c" "#e6c384"
+	"#7fb4ca" "#938aa9" "#7aa89f" "#dcd7ba"
+)

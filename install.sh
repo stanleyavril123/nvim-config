@@ -84,7 +84,7 @@ install_packages() {
 	log "Installing Ubuntu dependencies"
 	"${elevate[@]}" apt-get update
 	"${elevate[@]}" apt-get install -y \
-		build-essential ca-certificates curl fd-find fontconfig git jq libxcb-xkb1 nodejs \
+		build-essential ca-certificates curl fd-find fontconfig fzf git jq libxcb-xkb1 nodejs \
 		python3 python3-venv ripgrep tmux unzip wl-clipboard xclip xz-utils
 
 	# NodeSource bundles npm with nodejs and conflicts with Debian's separate npm package.
@@ -217,6 +217,22 @@ link_configs() {
 	link_dotfile "$DOTFILES_DIR/.tmux.conf" "$HOME/.tmux.conf"
 }
 
+# The theme selector generates the Kitty, tmux, and Neovim color files that
+# those configs include, so a theme has to be selected once per machine.
+link_theme() {
+	local state_dir="${XDG_STATE_HOME:-$HOME/.local/state}/theme"
+
+	log "Linking the theme selector"
+	mkdir -p "$HOME/.local/bin"
+	ln -sfn -- "$DOTFILES_DIR/bin/theme" "$HOME/.local/bin/theme"
+
+	if [[ -f "$state_dir/current" ]]; then
+		"$DOTFILES_DIR/bin/theme" reload
+	else
+		"$DOTFILES_DIR/bin/theme" set catppuccin-mocha
+	fi
+}
+
 configure_bash() {
 	local bashrc="$HOME/.bashrc"
 	local source_line='[[ -f "$HOME/.config/bash/prompt.bash" ]] && source "$HOME/.config/bash/prompt.bash"'
@@ -258,6 +274,7 @@ main() {
 	fi
 
 	link_configs
+	link_theme
 	configure_bash
 	check_path
 
@@ -267,6 +284,7 @@ main() {
 
 	log "Dotfiles installation complete"
 	printf 'Restart Kitty, then start tmux and Neovim normally.\n'
+	printf 'Run `theme` to switch the color theme of all three.\n'
 }
 
 main

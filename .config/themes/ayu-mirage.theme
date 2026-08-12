@@ -1,0 +1,17 @@
+name="Ayu Mirage"
+appearance="dark"
+nvim_colorscheme="ayu-mirage"
+nvim_plugin="neovim-ayu"
+
+foreground="#cbccc6"
+background="#1f2430"
+selection_foreground="#cbccc6"
+selection_background="#34455a"
+cursor="#ffcc66"
+
+palette=(
+	"#394654" "#f28779" "#bae67e" "#ffd580"
+	"#73d0ff" "#d4bfff" "#95e6cb" "#cbccc6"
+	"#636f7b" "#f28779" "#bae67e" "#ffd580"
+	"#73d0ff" "#d4bfff" "#95e6cb" "#ffffff"
+)

@@ -1,0 +1,17 @@
+name="Nightfox"
+appearance="dark"
+nvim_colorscheme="nightfox"
+nvim_plugin="nightfox.nvim"
+
+foreground="#cdcecf"
+background="#192330"
+selection_foreground="#cdcecf"
+selection_background="#2b3b51"
+cursor="#cdcecf"
+
+palette=(
+	"#40434d" "#d16781" "#81b29a" "#dbc074"
+	"#719cd6" "#9d79d6" "#63cdcf" "#dfdfe0"
+	"#6a6c75" "#d16983" "#8ebaa4" "#e0c989"
+	"#86abdc" "#baa1e2" "#7ad5d6" "#e4e4e5"
+)
